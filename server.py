@@ -1,4 +1,5 @@
 from flask import Flask
+from twilio.twiml.messaging_response import MessagingResponse
 import json
 
 app = Flask(__name__)
@@ -7,11 +8,11 @@ app = Flask(__name__)
 def handle_get():
     pass
 
-@app.route('/', methods=['POST'])
-def handle_post():
-    """Respond to incoming calls with a simple text message."""
+@app.route('/sms', methods=['GET', 'POST'])
+def handle_sms():
+    """Respond to incoming SMS with a simple text message."""
 
-    resp = MessagingResponse().message("Hello, Mobile Monkey")
+    resp = MessagingResponse().message("Hello, puny human.")
     return str(resp)
 
 if __name__ == '__main__':
