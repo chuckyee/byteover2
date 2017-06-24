@@ -5,14 +5,13 @@ security, so may be vulnerable to sql injections, bla bla bla
 
 import logging
 import requests
+import json
 
-AZUREKEY = 'PUT-YOUR-KEY-HERE'
-
-def askazure(text):
+def askazure(text, key):
     """Perform a sentiment analysis request using azure service
     """
 
-    header = {'Ocp-Apim-Subscription-Key': AZUREKEY,
+    header = {'Ocp-Apim-Subscription-Key': key,
               'Content-Type': 'application/json',
               'Accept': 'application/json'}
     data = { "documents":
@@ -23,7 +22,7 @@ def askazure(text):
 
     url = '''https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment'''
     response = requests.post(url, headers=header, json=data)
-    return response.text
+    return json.loads(response.text)
 
 def main():
     text = "That s awesome."

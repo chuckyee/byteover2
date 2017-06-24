@@ -1,13 +1,20 @@
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 import json
+from azure import askazure
 
 app = Flask(__name__)
 
 
 def analyze_sentiment(text):
-    """Analyze sentiment of passed string"""
-    return 0
+    """Analyze sentiment of passed string
+
+    Returns: json Azure sentiment object
+    """
+    key = app.config['AZURE_SUBSCRIPTION_KEY']
+    sentiment = askazure.askazure(text, key)
+    score = sentiment['documents'][0]['score']
+    return score
 
 @app.route('/', methods=['GET'])
 def handle_get():
@@ -24,10 +31,10 @@ def handle_sms():
     print(request.values)
     body = request.values.get("Body")
 
-    sentiment = analyze_sentiment(body)
-    print(sentiment)
+    score = analyze_sentiment(body)
+    print(score)
 
-    text = "Puny human, '{} in bed with cats' to you too.".format(body)
+    text = "Puny human, '{} in bed with cats' to you too. Your level of positivity is {}".format(body, score)
     resp = MessagingResponse().message(text)
     return str(resp)
 
