@@ -13,6 +13,11 @@ def analyze_sentiment(text):
 def handle_get():
     pass
 
+@app.route('/voice', methods=['GET', 'POST'])
+def handle_voice():
+    """Handle incoming voice calls."""
+    pass
+
 @app.route('/sms', methods=['GET', 'POST'])
 def handle_sms():
     """Respond to incoming SMS with a simple text message."""
