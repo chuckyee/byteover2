@@ -4,11 +4,31 @@ security, so may be vulnerable to sql injections, bla bla bla
 """
 
 import logging
+import requests
 
 AZUREKEY = 'PUT YOUR KEY HERE'
 
+def askazure(text):
+    """Perform a sentiment analysis request using azure service
+    """
+
+    header = {'Ocp-Apim-Subscription-Key': ''.format(AZUREKEY),
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'}
+    data = { "documents":
+            [ {"language": "en",
+               "id": "1",
+               "text":text}
+             ] }
+
+    url = '''https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment'''
+    response = requests.post(url, headers=header, json=data)
+    return response.text
+
 def main():
-    cmd = '''curl -H "Ocp-Apim-Subscription-Key: {}" -H "Content-Type: application/json" -H  "Accept: application/json" -X POST -d '{     "documents": [         {             "language": "en",             "id": "1",             "text": "That s awesome."         }     ] } ' https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment'''.format(AZUREKEY)
+    text = "That s awesome."
+    result = askazure(text)
+    print(result)
 
 if __name__ == "__main__":
     main()
