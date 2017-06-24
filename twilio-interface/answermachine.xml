@@ -2,5 +2,5 @@
 
 <Response>
 	<Say> Byte Over two </Say>
-	<Dial > Byte Over two </Dial>
+	<Dial> <Conference>Byte Over two </Conference></Dial>
 </Response>
