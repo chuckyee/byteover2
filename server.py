@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 import json
 
@@ -11,8 +11,11 @@ def handle_get():
 @app.route('/sms', methods=['GET', 'POST'])
 def handle_sms():
     """Respond to incoming SMS with a simple text message."""
+    print(request.values)
+    body = request.values.get("Body")
 
-    resp = MessagingResponse().message("Hello, puny human.")
+    text = "Puny human, '{} in bed with cats' to you too.".format(body)
+    resp = MessagingResponse().message(text)
     return str(resp)
 
 if __name__ == '__main__':
