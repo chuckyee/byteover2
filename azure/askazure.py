@@ -6,13 +6,13 @@ security, so may be vulnerable to sql injections, bla bla bla
 import logging
 import requests
 
-AZUREKEY = 'PUT YOUR KEY HERE'
+AZUREKEY = 'PUT-YOUR-KEY-HERE'
 
 def askazure(text):
     """Perform a sentiment analysis request using azure service
     """
 
-    header = {'Ocp-Apim-Subscription-Key': ''.format(AZUREKEY),
+    header = {'Ocp-Apim-Subscription-Key': AZUREKEY,
               'Content-Type': 'application/json',
               'Accept': 'application/json'}
     data = { "documents":
