@@ -5,6 +5,12 @@ from __future__ import print_function
 from pydub import AudioSegment
 import librosa.util
 
+
+def mp3_to_wav(mp3_filename, wav_filename):
+    y,sr = librosa.load(mp3_filename)
+    librosa.output.write_wav(wav_filename, y, sr)
+
+
 def mixing_librosa(filename1, filename2, outputfile, crop2=True):
     import librosa
     import librosa.output
