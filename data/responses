@@ -1,0 +1,23 @@
+{
+    "Negative": [
+    	"That’s not very nice, but I understand your anger.",
+	"Are you okay? You don’t seem so.",
+	"Why all the hostility?",
+	"Are you angry?",
+	"Cheer up, okay...",
+	"Everything okay? Want to talk about it?",
+	"Get out of your bag bro.",
+	"You need a chill pill, relax."
+    ],
+    "Neutral": [
+        "You seem pretty blaah today.",
+	"You seem neither here nor there."
+    ],
+    "Positive": [
+        "I like your energy.",
+	"I like your vibe.",
+	"You seem like a cool person, we should hang out sometime.",
+	"You seem very transparent & authentic, more so than me. I am just an artificial intelligence assessing your emotions.",
+	"The frequency of your emotions seems to align with someone who's positive. Not that I intercept vibrations or anything."
+    ]
+}

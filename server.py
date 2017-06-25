@@ -5,6 +5,7 @@ import os
 import shutil
 import time
 import threading
+import random
 
 from flask import Flask, Response, request
 from twilio.twiml.messaging_response import MessagingResponse
@@ -141,12 +142,15 @@ def handle_sms():
     score = analyze_sentiment(body)
     print(score)
 
+    with open('responses', 'r') as f:
+        responses = json.load(f)
+    
     if score < 0.33333:
-        text = "Dude, lighten the f- up."
+        text = random.choice(responses['Negative'])
     elif score < 0.66666:
-        text = "You seem neither here nor there."
+        text = random.choice(responses['Neutral'])
     else:
-        text = "Stop farting rainbows and unicorns."
+        text = random.choice(responses['Positive'])
 
     resp = MessagingResponse()
     resp.message(text)
