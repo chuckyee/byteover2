@@ -1,8 +1,10 @@
 import requests
 import json
 import io
+import os
 import shutil
 import time
+import threading
 
 from flask import Flask, Response, request
 from twilio.twiml.messaging_response import MessagingResponse
@@ -105,7 +107,19 @@ def handle_record_action():
     response.play(audio_endpoint)
     response.say("Thanks. Goodbye.")
     response.hangup()
+
+    # set timer to delete temporary files after 30sec
+    delay_seconds = 30
+    files = [mp3_filename, wav_filename, outputfile]
+    timer_delete_temp_files = threading.Timer(delay_seconds, delete_temp_files, args=files)
+    timer_delete_temp_files.start()
     return str(response)
+
+
+def delete_temp_files(*files):
+    for filename in files:
+        os.remove(filename)
+        print("Deleted {}".format(filename))
 
 
 @app.route('/voice', methods=['GET', 'POST'])
