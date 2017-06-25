@@ -41,9 +41,9 @@ def handle_audiofile_get(audiofile):
     return Response(audio_data, mimetype="audio/wav")
 
 
-@app.route('/record_action', methods=['POST'])
-def handle_record_action():
-    print("Handling record action callback.")
+@app.route('/recording_status', methods=['POST'])
+def handle_recording_status():
+    print("Handling recording status callback.")
     audio_format = ".mp3"
     url = request.form.get("RecordingUrl")
     basename = url.split('/')[-1] # get unique filename
@@ -64,12 +64,38 @@ def handle_record_action():
     return str(response)
 
 
+@app.route('/record_action', methods=['POST'])
+def handle_record_action():
+    print("Handling record action callback.")
+    response = VoiceResponse()
+    response.say("Please wait.")
+    return str(response)
+    # audio_format = ".mp3"
+    # url = request.form.get("RecordingUrl")
+    # basename = url.split('/')[-1] # get unique filename
+    # filename = "/tmp/{}{}".format(basename, audio_format)
+    # r = requests.get(url + audio_format)
+    # with open(filename, 'wb') as f:
+    #     shutil.copyfileobj(io.BytesIO(r.content), f)
+    #     print("Wrote mp3 out to file {}".format(filename))
+
+    # filename_happy_music = './music/brandenburg.wav'
+    # outputfile = "/tmp/response_{}.wav".format(basename)
+    # audio.mixing_librosa(filename, filename_happy_music, outputfile)
+    # audio_endpoint = "{}/music/{}".format(app.config['PUBLIC_URL'], basename)
+    # response = VoiceResponse()
+    # response.play(audio_endpoint)
+    # response.say("Thanks. Goodbye.")
+    # response.hangup()
+    # return str(response)
+
+
 @app.route('/voice', methods=['GET', 'POST'])
 def handle_voice():
     """Handle incoming voice calls."""
     response = VoiceResponse()
     response.say("Record a message and stay on the line when finished.")
-    response.record(timeout=2, action='/record_action')
+    response.record(timeout=2, action='/record_action', recordingStatusCallback='/recording_status')
     print(response)
     return str(response)
 
