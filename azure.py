@@ -8,7 +8,7 @@ import requests
 import json
 from subprocess import Popen, PIPE
 
-def texto_to_sentiment_scale(text, key):
+def text_to_sentiment(text, key):
     """Perform a sentiment analysis request using azure service
     """
 
@@ -25,13 +25,9 @@ def texto_to_sentiment_scale(text, key):
     response = requests.post(url, headers=header, json=data)
     return json.loads(response.text)
 
-def wav_to_text(wavfile):
+def wav_to_text(wavfile, requestid, jwt):
     """Extract text from wave file
     """
-
-    requestid = 'YOUR-REQUEST-ID'
-    jwt = 'YOUT-JWT'
-
     cmd = '''curl  -X POST 'https://speech.platform.bing.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US&locale=en-US&format=simple&requestid={}' -H 'Transfer-Encoding: chunked'  -H 'Authorization: Bearer {}' -H 'Content-type: audio/wav; codec="audio/pcm"; samplerate=8000' --data-binary @'{}' '''.format(requestid, jwt, wavfile)
 
     process = Popen([cmd], stdout=PIPE, shell=True)
